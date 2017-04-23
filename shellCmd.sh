@@ -1,1 +1,62 @@
-#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++PLY#du参数PLYduspace-schspace*PLY#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++PLY#spacersync数据和文件同步PLYrsyncspace-arvzspace--deletespace--excludespace'相对路径'space-espace"sshspace-pspace22"space~/test/spacezhuser@99.12.90.8:/home/zhuser/testPLY#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++PLYtcpdumpspacesrcspacehostspace99.12.69.165spaceandspacedstspace99.12.90.100spaceandspaceudpspacespace-vxspace-ispaceeth0space-espacePLYtcpdumpspacedstspacehostspace99.12.69.165spaceandspaceicmpspacespace-vxspace-ispaceeth0space-ePLY#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++PLY#space查看物理CPU个数PLYcatspace/proc/cpuinfo|spacegrepspace"physicalspaceid"|spacesort|spaceuniq|spacewcspace-lPLY#space查看每个物理CPU中core的个数(即核数)PLYcatspace/proc/cpuinfo|spacegrepspace"cpuspacecores"|spaceuniqPLY#space查看逻辑CPU的个数PLYcatspace/proc/cpuinfo|spacegrepspace"processor"|spacewcspace-lPLY#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++PLYzipspacebak_conf.zipspace./dbconfiglogger.propertiesspace./dbconfig.propertiesspace./webmgr.propertiesspace./WEB-INF/classes/dbconfig.propertiesspace./WEB-INF/classes/config/spring.xmlPLY#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++PLY#space设置硬件时钟及同步系统时间PLYdatePLYhwclockspace--showPLYhwclockspace--setspace--date="2017-04-13space08:28:00"PLYhwclockspace--hctosysPLYhwclockspace--showPLYdatePLY#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++PLY#sqlie3语法：字符串链接PLYupdatespacepublicspacesetspacepublicpath=publicpath||publicname;spacePLYupdatespacepublicspacewherespacepublicname=pub_groupmsgspacesetspacepublicpath=publicpath||"_jboss";spacePLY#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++PLY#spacetop以批处理发布方式执行PLYtopspace-bspace-nspace1space|spaceheadspace-5PLYtopspace-bspace-n2space-pspace27059PLYnetstatspace-anpspace|spacegrepspace9086space|spacegrepspaceESTABLISHEDspace|spacegrepspacejavaspace|spacewcspace-lPLY#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++PLY#space注意语法格式。PLY#space备份源中版本PLYlist="mscspaceuccspaceconfigcenterspaceeyesightspacemdbcspacecmpspaceomcspacetrcspacempp"PLYforspaceispaceinspace$list;dospacelsspace-ldspace/home/zhuser/innerapp/$i/$i.jar;donePLYforspaceispaceinspace$list;dospacemvspace/home/zhuser/innerapp/$i/$i.jarspace/home/zhuser/backup/bak_$(datespace+%F);donePLYforspaceispaceinspace$list;dospacelsspace-ldspace/home/zhuser/backup/bak_$(datespace+%F)/$i.jar;donePLYforspaceispaceinspace$list;dospacelsspace-ldspace/home/zhuser/innerapp/$i/${i}_lib;donePLYforspaceispaceinspace$list;dospacemvspace/home/zhuser/innerapp/$i/${i}_libspace/home/zhuser/backup/bak_$(datespace+%F);donePLYforspaceispaceinspace$list;dospacelsspace/home/zhuser/backup/bak_$(datespace+%F)/${i}_lib;donePLY#space更新源中版本PLYforspaceispaceinspace$list;dospacefindspace/tmp/$(datespace+%m%d)space-namespace$i.jar;done|wcspace-lPLYforspaceispaceinspace$list;dospacecpspace-rspace$(findspace/tmp/$(datespace+%m%d)space-namespace$i.jar)space/home/zhuser/innerapp/$i/;donePLYforspaceispaceinspace$list;dospacelsspace-ldspace/home/zhuser/innerapp/$i/$i.jar;donePLYforspaceispaceinspace$list;dospacefindspace/tmp/$(datespace+%m%d)space-namespace${i}_lib;done|wcspace-lPLYforspaceispaceinspace$list;dospacecpspace-rspace$(findspace/tmp/$(datespace+%m%d)space-namespace${i}_lib)space/home/zhuser/innerapp/$i;donePLYforspaceispaceinspace$list;dospacelsspace/home/zhuser/innerapp/$i/${i}_lib;donePLY#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++PLY#查找正在删除的文件（有进程在使用）PLYlsofspace|spacegrepspacedeletedPLY#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++PLY#space格式化日期输出，可以进行日期的加减计算PLYdatespace-dspace"+0spacemonthspace-1spaceday"space+%Y-%m-%dPLY#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++PLYPLYPLY
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#du参数
+du -sch *
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# rsync数据和文件同步
+rsync -arvz --delete --exclude '相对路径' -e "ssh -p 22" ~/test/ zhuser@99.12.90.8:/home/zhuser/test
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+tcpdump src host 99.12.69.165 and dst 99.12.90.100 and udp  -vx -i eth0 -e 
+tcpdump dst host 99.12.69.165 and icmp  -vx -i eth0 -e
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 查看物理CPU个数
+cat /proc/cpuinfo| grep "physical id"| sort| uniq| wc -l
+# 查看每个物理CPU中core的个数(即核数)
+cat /proc/cpuinfo| grep "cpu cores"| uniq
+# 查看逻辑CPU的个数
+cat /proc/cpuinfo| grep "processor"| wc -l
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+zip bak_conf.zip ./dbconfiglogger.properties ./dbconfig.properties ./webmgr.properties ./WEB-INF/classes/dbconfig.properties ./WEB-INF/classes/config/spring.xml
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 设置硬件时钟及同步系统时间
+date
+hwclock --show
+hwclock --set --date="2017-04-13 08:28:00"
+hwclock --hctosys
+hwclock --show
+date
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#sqlie3语法：字符串链接
+update public set publicpath=publicpath||publicname; 
+update public where publicname=pub_groupmsg set publicpath=publicpath||"_jboss"; 
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# top以批处理发布方式执行
+top -b -n 1 | head -5
+top -b -n2 -p 27059
+netstat -anp | grep 9086 | grep ES	LISHED | grep java | wc -l
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 注意语法格式。
+# 备份源中版本
+list="msc ucc configcenter eyesight mdbc cmp omc trc mpp"
+for i in $list;do ls -ld /home/zhuser/innerapp/$i/$i.jar;done
+for i in $list;do mv /home/zhuser/innerapp/$i/$i.jar /home/zhuser/backup/bak_$(date +%F);done
+for i in $list;do ls -ld /home/zhuser/backup/bak_$(date +%F)/$i.jar;done
+for i in $list;do ls -ld /home/zhuser/innerapp/$i/${i}_lib;done
+for i in $list;do mv /home/zhuser/innerapp/$i/${i}_lib /home/zhuser/backup/bak_$(date +%F);done
+for i in $list;do ls /home/zhuser/backup/bak_$(date +%F)/${i}_lib;done
+# 更新源中版本
+for i in $list;do find /tmp/$(date +%m%d) -name $i.jar;done|wc -l
+for i in $list;do cp -r $(find /tmp/$(date +%m%d) -name $i.jar) /home/zhuser/innerapp/$i/;done
+for i in $list;do ls -ld /home/zhuser/innerapp/$i/$i.jar;done
+for i in $list;do find /tmp/$(date +%m%d) -name ${i}_lib;done|wc -l
+for i in $list;do cp -r $(find /tmp/$(date +%m%d) -name ${i}_lib) /home/zhuser/innerapp/$i;done
+for i in $list;do ls /home/zhuser/innerapp/$i/${i}_lib;done
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#查找正在删除的文件（有进程在使用）
+lsof | grep deleted
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 格式化日期输出，可以进行日期的加减计算
+date -d "+0 month -1 day" +%Y-%m-%d
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+

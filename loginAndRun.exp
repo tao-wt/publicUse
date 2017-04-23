@@ -1,1 +1,24 @@
-#!/usr/local/bin/expectPLYsetspacetimeoutspace20PLYsetspaceipspace[lindexspace$argvspace0]PLYsetspaceuserspace[lindexspace$argvspace1]PLYsetspacepasswordspace[lindexspace$argvspace2]PLYsetspaceicmdspace[lindexspace$argvspace3]PLYPLYspawnspacesshspace"$user\@$ip"PLYexpectspace{PLYTAB"password:"space{sendspace"$password\r"}PLYTAB"yes/no"space{PLYTABTABsendspace"yes\r"PLYTABTABexpectspace"password:"PLYTABTABsendspace"$password\r"PLYTAB}PLY}PLYexpectspace"*]*"PLYsendspace"$icmd\r";PLY#interactPLYexpectspace"*]$*"PLYsendspace"exit\r";PLYexpectspaceeofPLY#interactPLY
+#!/usr/local/bin/expect
+set timeout 20
+set ip [lindex $argv 0]
+set user [lindex $argv 1]
+set password [lindex $argv 2]
+set icmd [lindex $argv 3]
+
+spawn ssh "$user\@$ip"
+expect {
+	"password:" {send "$password\r"}
+	"yes/no" {
+		send "yes\r"
+		expect "password:"
+		send "$password\r"
+	}
+}
+expect "*]*"
+send "$icmd\r";
+#interact
+expect "*]$*"
+send "exit\r";
+expect eof
+#interact
+
