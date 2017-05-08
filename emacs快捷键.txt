@@ -1,1 +1,27 @@
-Ctrl+rspace实现快速检索使用过的历史命令。Ctrl+r中r是retrieve中r。spaceWTCtrl+a：光标回到命令行首。space（a：ahead）spaceWTCtrl+e：光标回到命令行尾。space（e：end）WTWTctrl+w:space移除光标前的一个单词WTCtrl+k：删除光标处到行尾的字符。spaceWTCtrl+u：删除整个命令行文本字符。spaceWTCtrl+y:：粘贴Ctrl+u，Ctrl+k，Ctrl+w删除的文本。WTWTCtrl+d删除提示符后一个字符或exit或logoutspaceWTWTctrl+y:space粘贴或者恢复上次的删WTWTWTCtrl+s:使终端发呆，静止，可以使快速输出的终端屏幕停下来。WTCtrl+q：退出Ctrl+s引起的发呆。WTWTWTEsc+bspace移动到当前单词的开头spaceWTEsc+fspace移动到当前单词的结尾spaceWTEsc+tspace颠倒光标所在处及其相邻单词的位置spaceWTESC-cspace使下一个单词首字母大写,space同时光标前进一个单词,space如光标停留在单词的某个spacespacespacespace字母上,space如word中的o字母上,space则o字母变大写.space而不是wspaceWTESC+uspace使下一个单词所有字母变大写,space同时光标前进一个单词,space同上,space如光标在o字母上,space则ord变大写,spacew不变.spaceWTESC+lspace同ESC-U,space但使之全变为小写WTWTWT
+Ctrl+r 实现快速检索使用过的历史命令。Ctrl+r中r是retrieve中r。 
+Ctrl+a：光标回到命令行首。 （a：ahead） 
+Ctrl+e：光标回到命令行尾。 （e：end）
+
+ctrl+w: 移除光标前的一个单词
+Ctrl+k：删除光标处到行尾的字符。 
+Ctrl+u：删除整个命令行文本字符。 
+Ctrl+y:：粘贴Ctrl+u，Ctrl+k，Ctrl+w删除的文本。
+
+Ctrl+d删除提示符后一个字符或exit或logout 
+
+ctrl+y: 粘贴或者恢复上次的删
+
+
+Ctrl+s:使终端发呆，静止，可以使快速输出的终端屏幕停下来。
+Ctrl+q：退出Ctrl+s引起的发呆。
+
+
+Esc+b 移动到当前单词的开头 
+Esc+f 移动到当前单词的结尾 
+Esc+t 颠倒光标所在处及其相邻单词的位置 
+ESC-c 使下一个单词首字母大写, 同时光标前进一个单词, 如光标停留在单词的某个    字母上, 如word中的o字母上, 则o字母变大写. 而不是w 
+ESC+u 使下一个单词所有字母变大写, 同时光标前进一个单词, 同上, 如光标在o字母上, 则ord变大写, w不变. 
+ESC+l 同ESC-U, 但使之全变为小写
+
+
+
