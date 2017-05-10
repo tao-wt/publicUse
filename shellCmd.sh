@@ -57,6 +57,12 @@ lsof | grep deleted
 # 格式化日期输出，可以进行日期的加减计算
 date -d "+0 month -1 day" +%Y-%m-%d
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
+#mysql查询所有表名：
+SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '数据库名'；
+#mysql查询所有数据库名：
+SELECT `SCHEMA_NAME`  FROM `information_schema`.`SCHEMATA`;
+#远程执行上述查询命令
+mysql -upgm -ppgmfetion -h 99.12.90.1 -P 3307 -e  "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'urapport_config'"
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
