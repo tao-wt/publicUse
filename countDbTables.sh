@@ -1,1 +1,17 @@
-#!/usr/bin/envspacebashPLY#统计指定ip:port下数据库中表格名字.PLY#usage：PLY#TABTABbashspacecountDbTables.shspaceip1spaceport1spaceip2spaceport2spaceip3spaceport3spacePLYPLYPLYIFS=$'space\t\n'PLYPLYwhilespacetestspace$#space-gespace2PLYdoPLYTABforspaceispaceinspace$(mysqlspace-upgmspace-ppgmfetionspace-hspace$1space-Pspace$2space-espace"SELECTspace\`SCHEMA_NAME\`spacespaceFROMspace\`information_schema\`.\`SCHEMATA\`"space|spaceegrepspace-vspace'+-|SCHEMA_NAME')PLYTABdoPLYTABTABmysqlspace-upgmspace-ppgmfetionspace-hspace$1space-Pspace$2space-espacespace"SELECTspaceTABLE_NAMEspaceFROMspaceINFORMATION_SCHEMA.TABLESspaceWHEREspaceTABLE_SCHEMAspace=space\"${i}\""space|spaceegrepspace-vspace'+-|TABLE_NAME'space|spaceawkspace-vspaceip=$1space-vspaceport=$2space-vspacedb=$ispace'BEGIN{printspaceip,port,db}{printf("\t\t%s\n",$0);}'PLYTABdonePLYTABshiftspace2PLYdonePLY
+#!/usr/bin/env bash
+#统计指定ip:port下数据库中表格名字.
+#usage：
+#		bash countDbTables.sh ip1 port1 ip2 port2 ip3 port3 
+
+
+IFS=$' \t\n'
+
+while test $# -ge 2
+do
+	for i in $(mysql -upgm -ppgmfetion -h $1 -P $2 -e "SELECT \`SCHEMA_NAME\`  FROM \`information_schema\`.\`SCHEMATA\`" | egrep -v '+-|SCHEMA_NAME')
+	do
+		mysql -upgm -ppgmfetion -h $1 -P $2 -e  "SELECT 	LE_NAME FROM INFORMATION_SCHEMA.	LES WHERE 	LE_SCHEMA = \"${i}\"" | egrep -v '+-|	LE_NAME' | awk -v ip=$1 -v port=$2 -v db=$i 'BEGIN{print ip,port,db}{printf("\t\t%s\n",$0);}'
+	done
+	shift 2
+done
+
