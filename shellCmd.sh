@@ -64,5 +64,7 @@ SELECT `SCHEMA_NAME`  FROM `information_schema`.`SCHEMATA`;
 #远程执行上述查询命令
 mysql -upgm -ppgmfetion -h 99.12.90.1 -P 3307 -e  "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'urapport_config'"
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
+# 查看脚本当前目录
+dir=$( cd "$( dirname "$0"  )" && pwd  )
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
