@@ -5,3 +5,6 @@ http://blog.csdn.net/lianghe_work/article/category/2871247
 books:
 AWK程序设计语言.pdf
 sedAndawk.pdf
+
+sed变量替换
+http://luzhi1024.blog.51cto.com/8845546/1649763
