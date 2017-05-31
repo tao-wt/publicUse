@@ -6,5 +6,8 @@ books:
 AWK程序设计语言.pdf
 sedAndawk.pdf
 
-sed变量替换
+sed变量替换：
 http://luzhi1024.blog.51cto.com/8845546/1649763
+
+http协议：
+http://www.cnblogs.com/li0803/archive/2008/11/03/1324746.html
