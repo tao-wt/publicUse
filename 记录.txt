@@ -14,3 +14,6 @@ http://www.cnblogs.com/li0803/archive/2008/11/03/1324746.html
 
 nagios安装配置：
 http://www.cnblogs.com/mchina/archive/2013/02/20/2883404.html
+
+TCP长连接与短连接的区别:
+http://www.cnblogs.com/liuyong/archive/2011/07/01/2095487.html
