@@ -1,1 +1,92 @@
-#!/usr/bin/envspacepythonPLY#spaceencoding:utf-8PLY__author__space=space'sainter'PLYPLYimportspacesysPLY#fromspacelib.ParamikoClassspaceimportspace*PLY#fromspacelib.PublicSQLClassspaceimportspace*PLYimportspacesubprocessPLYimportspacemultiprocessingPLYimportspacesqlite3PLYfromspaceoptparsespaceimportspaceOptionParserPLYimportspacerePLYPLYclassspaceSqliteClass(object):PLYPLYTABdefspace__init__(self,dbname):PLYTABTABself.dbnamespace=spacedbnamePLYTABTABself.connspace=spacesqlite3.connect(self.dbname)PLYTABTABself.curspace=spaceself.conn.cursor()PLYPLYTABdefspacequery(self,sql):PLYTABTABtry:PLYTABTABTABn=self.cur.execute(sql)PLYTABTABTABreturnspacenPLYTABTABexceptspacesqlite3.Error,e:PLYTABTABTABprintspace"sqlitespaceError:%s\nSQL:%s"space%(e,sql)PLYPLYTABdefspacequeryAll(self,sql):PLYTABTABself.query(sql)PLYTABTABresultspace=spaceself.cur.fetchall()PLYTABTABnew_listspace=[]PLYTABTABforspaceinvspaceinspaceresult:PLYTABTABTABdspace=space[]PLYTABTABTABforspaceispaceinspacerange(0,len(inv)):PLYTABTABTABTABd.append(inv[i])PLYTABTABTABnew_list.append(d)PLYTABTABreturnspacenew_listPLYPLYTABdefspacecommit(self):PLYTABTABself.conn.commit()PLYPLYTABdefspaceclose(self):PLYTABTABself.cur.close()PLYTABTABself.conn.close()PLYPLYclassspaceSQLClass(object):PLYTABsspace=spaceSqliteClass('/home/nagios/modError.db')PLYPLYTABdefspacecheckInfo(self,ip,mod):PLYTABTABsql='selectspace*spacefromspacemodErrorspacewherespaceip="%s"spaceandspacemod="%s";'%(ip,mod)PLYTABTABreturnspaceself.s.queryAll(sql)PLYTABTABPLYTABdefspaceinsInfo(self,ip,mod):PLYTABTABsqlspace=space'insertspaceintospacemodErrorspace(ip,mod)spacevalues("%s","%s");'%(ip,mod)PLYTABTAB#printspacesqlPLYTABTABself.s.queryAll(sql)PLYTABTABself.s.commit()PLYPLYTABdefspacedelInfo(self,ip,mod):PLYTABTABsqlspace=space"deletespacefromspacemodErrorspacewherespaceip='%s'spaceandspacemod='%s';"space%(ip,mod)PLYTABTAB#printspacesqlPLYTABTABself.s.queryAll(sql)PLYTABTABself.s.commit()PLYPLYparserspace=spaceOptionParser(add_help_option=0)PLY#spaceparser.add_option("-h",space"--help",spaceaction="callback",spacecallback=helpFunc)PLY#spaceparser.add_option("-v",space"-V",space"--version",spaceaction="callback",spacecallback=verFunc)PLYparser.add_option("-S",space"--stat",spaceaction="store",spacetype="string",spacedest="stat",default="")PLYparser.add_option("-M",space"--module",spaceaction="store",spacetype="string",spacedest="mod",default="")PLYparser.add_option("-i",space"--ip",spaceaction="store",spacetype="string",spacedest="ip",default="")PLY(options,spaceargs)space=spaceparser.parse_args()PLYmod=options.modPLYip=options.ipPLYstat=options.statPLYcommandoption=argsPLY#printspacestat,ip,modPLYPLYtspace=spaceSQLClass()PLYPLY#checkBspace=spacestat.find("OK")PLYifspacestat.find("RECOVERY")==-1:PLYTABcheckAspace=spacet.checkInfo(ip,mod)PLYTABifspacecheckAspace==space[]:PLYTABTAB#printspace'---'PLYTABTABt.insInfo(ip,mod)PLYelse:PLYTABcheckAspace=spacet.checkInfo(ip,mod)PLYTAB#printspace'+++',checkAPLYTABifspacecheckAspace!=space[]:PLYTABTABt.delInfo(ip,mod)PLYPLY
+#!/usr/bin/env python
+# encoding:utf-8
+__author__ = 'sainter'
+
+import sys
+#from lib.ParamikoClass import *
+#from lib.PublicSQLClass import *
+import subprocess
+import multiprocessing
+import sqlite3
+from optparse import OptionParser
+import re
+
+class SqliteClass(object):
+
+	def __init__(self,dbname):
+		self.dbname = dbname
+		self.conn = sqlite3.connect(self.dbname)
+		self.cur = self.conn.cursor()
+
+	def query(self,sql):
+		try:
+			n=self.cur.execute(sql)
+			return n
+		except sqlite3.Error,e:
+			print "sqlite Error:%s\nSQL:%s" %(e,sql)
+
+	def queryAll(self,sql):
+		self.query(sql)
+		result = self.cur.fetchall()
+		new_list =[]
+		for inv in result:
+			d = []
+			for i in range(0,len(inv)):
+				d.append(inv[i])
+			new_list.append(d)
+		return new_list
+
+	def commit(self):
+		self.conn.commit()
+
+	def close(self):
+		self.cur.close()
+		self.conn.close()
+
+class SQLClass(object):
+	s = SqliteClass('/home/nagios/modError.db')
+
+	def checkInfo(self,ip,mod):
+		sql='select * from modError where ip="%s" and mod="%s";'%(ip,mod)
+		return self.s.queryAll(sql)
+		
+	def insInfo(self,ip,mod):
+		sql = 'insert into modError (ip,mod) values("%s","%s");'%(ip,mod)
+		#print sql
+		self.s.queryAll(sql)
+		self.s.commit()
+
+	def delInfo(self,ip,mod):
+		sql = "delete from modError where ip='%s' and mod='%s';" %(ip,mod)
+		#print sql
+		self.s.queryAll(sql)
+		self.s.commit()
+
+parser = OptionParser(add_help_option=0)
+# parser.add_option("-h", "--help", action="callback", callback=helpFunc)
+# parser.add_option("-v", "-V", "--version", action="callback", callback=verFunc)
+parser.add_option("-S", "--stat", action="store", type="string", dest="stat",default="")
+parser.add_option("-M", "--module", action="store", type="string", dest="mod",default="")
+parser.add_option("-i", "--ip", action="store", type="string", dest="ip",default="")
+(options, args) = parser.parse_args()
+mod=options.mod
+ip=options.ip
+stat=options.stat
+commandoption=args
+#print stat,ip,mod
+
+t = SQLClass()
+
+#checkB = stat.find("OK")
+if stat.find("RECOVERY")==-1:
+	checkA = t.checkInfo(ip,mod)
+	if checkA == []:
+		#print '---'
+		t.insInfo(ip,mod)
+else:
+	checkA = t.checkInfo(ip,mod)
+	#print '+++',checkA
+	if checkA != []:
+		t.delInfo(ip,mod)
+
+
