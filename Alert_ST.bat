@@ -1,6 +1,6 @@
 @echo off
 
-title add Alert-nagios autoStart
+title zhaohu ST_environment add Alert_nagios autoStart
 set n=0
 set sourceDir=%~dp0
 REM echo %sourceDir%
