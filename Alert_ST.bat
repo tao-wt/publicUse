@@ -16,7 +16,7 @@ reg query HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run | find
 				set ijava_!n!=%%~dpa
 				REM set jjava_!n!=%%b
 			)
-			reg add HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run /v Alert_ST /t REG_SZ /d "!ijava_1! -jar %sourceDir%\Alert_ST.jar"
+			reg add HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run /v Alert_ST /t REG_SZ /d "!ijava_1! -jar %sourceDir%\Alert_ST.jar" || goto regError
 			REM pushd "!ijava_1!" >null
 				REM pause
 				REM set tjava=!ijava_1!.!jjava_1!
@@ -33,7 +33,7 @@ reg query HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run | find
 )
 echo *** Alert_ST autostart had added! ***
 ping 127.0.0.1 -n 5 >null
-exit 1
+exit 0
 
 
 :addOk
@@ -42,6 +42,12 @@ ping 127.0.0.1 -n 5 >null
 exit 0
 
 :javawError
-echo java maybe not install in your computer,please check.
+echo *** java maybe not install in your computer,please check. ***
 REM pause
-exit 3
+exit 2
+
+
+:regError
+echo *** reg add failed,please check! ***
+REM pause
+exit 1
