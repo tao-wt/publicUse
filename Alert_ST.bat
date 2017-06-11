@@ -43,11 +43,11 @@ exit 0
 
 :javawError
 echo *** java maybe not install in your computer,please check. ***
-REM pause
+pause
 exit 2
 
 
 :regError
 echo *** reg add failed,please check! ***
-REM pause
+pause
 exit 1
