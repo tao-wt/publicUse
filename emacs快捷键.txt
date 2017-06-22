@@ -1,3 +1,5 @@
+set -o vi :切换到vi模式
+set +o vi :退出vi模式
 Ctrl+r 实现快速检索使用过的历史命令。Ctrl+r中r是retrieve中r。 
 Ctrl+a：光标回到命令行首。 （a：ahead） 
 Ctrl+e：光标回到命令行尾。 （e：end）
@@ -13,8 +15,10 @@ ctrl+y: 粘贴或者恢复上次的删
 
 
 Ctrl+s:使终端发呆，静止，可以使快速输出的终端屏幕停下来。
-Ctrl+q：退出Ctrl+s引起的发呆。
+Ctrl+q：退出Ctrl+s引起的发呆
 
+ctrl+l:清屏
+alt+b/f:向前后跳转
 
 Esc+b 移动到当前单词的开头 
 Esc+f 移动到当前单词的结尾 
