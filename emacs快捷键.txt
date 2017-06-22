@@ -1,3 +1,5 @@
+http://www.linuxde.net/2011/11/1877.html
+
 set -o vi :切换到vi模式
 set +o vi :退出vi模式
 Ctrl+r 实现快速检索使用过的历史命令。Ctrl+r中r是retrieve中r。 
