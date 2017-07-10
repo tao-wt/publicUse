@@ -74,3 +74,5 @@ nohup ls -R|nohup grep dt>/tmp/lsdt.out &
 # sed替换多行
 sed '354,355c org.apache.catalina.startup.Bootstrap  "$@"  start   2  >& 1   \\\n     | /usr/local/sbin/cronolog  "$CATALINA_BASE" /logs/catalina.%Y-%m-%d.out >> /dev/ null  &\n' tomcat_pub_cmbc_interface/bin/catalina.sh | egrep -C 1 'org\.apache\.catalina\.startup\.Bootstrap "\$@" start '
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#tcpdump高级语法:多条件配合
+tcpdump '(udp and dst host 99.6.150.84) or (icmp and dst host 99.12.90.102)' -vv -x -e
