@@ -1,3 +1,5 @@
+SNAT: Source Network Address Translation，是修改网络包源ip地址的。
+DNAT: Destination Network Address Translation,是修改网络包目的ip地址的。
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #du参数
 du -sch *
