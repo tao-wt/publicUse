@@ -1,4 +1,8 @@
+#递归查看镜像里/opt目录
+virt-ls -R -a /mnt/CBTS_HZ/CBTS18_MZ_0700/FSM4/CBTS18_FSM4_MZ_0700_000141_000000/Internal_Use/CBTS18_FSM4_MZ_0700_000141_000000_OAM.qcow2 /opt
+#查看镜像分区
 virt-filesystems --parts -a CBTS18_FSM3_MZ_0700_000081_000000_OAM.qcow2
+#挂载镜像
 guestmount -a CBTS18_FSM4_MZ_0700_000155_000001_OAM.qcow2 -m /dev/sda1 --rw ./iso
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 SNAT: Source Network Address Translation，是修改网络包源ip地址的。
