@@ -1,3 +1,8 @@
+#centos7关闭防火墙
+systemctl list-unit-files|grep firewalld.service
+systemctl status firewalld.service
+systemctl stop firewalld.service
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #导出镜像指定目录下文件到当前目录下oam文件夹
 virt-copy-out -a CBTS18_FSM4_MZ_0700_000141_000000_OAM.qcow2 /opt/nokia/SS_RCPCCSMCU/MGT/AaTrblServerConfig.txt ./oam/
 #导入当前目录下的txt文件到指定镜像里指定的目录
