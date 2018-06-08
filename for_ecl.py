@@ -8,6 +8,7 @@ import configparser
 import argparse
 import shutil
 import subprocess
+from git import Repo
 from xml.dom.minidom import parse
 import xml.dom.minidom
 # import cbts_freezer.checkout_cbts_base
@@ -98,8 +99,14 @@ def commit_ecl(local_repo):
     svn commit function
     '''
     os.chdir(local_repo)
-    commit_command = 'svn ci . -m "{} -by {}" '.format(args.commit, args.committer)
-    log.info('svn commit,wait....\n' + SCM.svn_cmd(commit_command))
+    log.info('ECL {} commit,wait....'.format(repo_type))
+    if repo_type == 'svn':
+        commit_command = 'svn ci . -m "{} -by {}" '.format(args.commit, args.committer)
+        log.info('\n' + SCM.svn_cmd(commit_command))
+    else:
+        log.info(repo_local.index.add(['ECL']))
+        log.info(repo_local.index.commit('{} -by {}'.format(args.commit, args.committer)))
+        log.info(repo_local.remotes.origin.push(ecl_repo))
 
 
 def get_Xml_Item(releasenoteTree, xmlItem):
@@ -177,6 +184,7 @@ def get_ecl_repo():
     '''
     clone ecl repo
     '''
+    type = 'git'
     config_mapping_file = os.path.join(working_root, 'branch_prefixName.ini')
     SCM.svn_cmd(
         'svn export --force {}/isource/svnroot/BTS_SCM_CLOUD_CB/'
@@ -187,9 +195,11 @@ def get_ecl_repo():
     log.info('-' * 54)
     config_mapping = configParser()
     config_mapping.read(config_mapping_file)
-    ecl_svn_path = config_mapping.get('ECL_PATH', '{}'.format(args.branch))
+    ecl_svn_path = re.sub(r'https?://[^/]*', '', config_mapping.get('ECL_PATH', '{}'.format(args.branch)))
+    if re.match(r'/isource', ecl_svn_path):
+        type = 'svn'
     ifdd_mod = config_mapping.get('ECL_PATH', 'baselines').strip().split(',')
-    return ecl_svn_path, ifdd_mod
+    return ecl_svn_path, ifdd_mod, type
 
 
 def parse_cb_ecl(ecl_ws):
@@ -333,22 +343,26 @@ def checkout_ecl(cbts_base_branch, folder_name):
     '''
     get ecl repo
     '''
+    repo_local = 'issvn'
     cbts_base_ws = os.path.join(os.getcwd(), folder_name)
     if os.path.exists(cbts_base_ws):
         shutil.rmtree(cbts_base_ws)
-    SCM.svn_cmd(
-        'svn co ' +
-        cbts_base_branch +
-        " {} --ignore-externals".format(cbts_base_ws))
+    if repo_type == 'svn':
+        SCM.svn_cmd(
+            'svn co ' + current_svn_server +
+            cbts_base_branch +
+            " {} --ignore-externals".format(cbts_base_ws))
+    else:
+        repo_local = Repo.clone_from(current_git_server, cbts_base_ws, branch=cbts_base_branch)
 
-    return cbts_base_ws
+    return cbts_base_ws, repo_local
 
 
 def get_sc_tag(scVar):
     '''
     return sc tag
     '''
-    if scVar.find('/isource/svnroot/'):
+    if scVar.find('/isource/svnroot/') >= 0:
         return scVar.rstrip('/').split('/')[-1]
     return scVar
 
@@ -434,18 +448,18 @@ def update_ecl():
     if args.TPI and args.dailyUpdate == "False":
         tpi_tag = get_sc_tag(args.TPI)
         log.info('use specified TPI version:%s' % tpi_tag)
-        tpi_url = re.sub(r'https?://[^/]*', current_svn_server,
+        tpi_url = re.sub(r'https?://[^/]*', '',
             get_Xml_Item(read_xml(get_wft_releasenote(tpi_tag)),
-            'downloadItem')[0].childNodes[0].data.strip())
+            'downloadItem')[0].childNodes[0].data.strip()).rstrip('/')
         ecl_dict['TPI'] = tpi_url
         log.info('-' * 54)
 
     if args.TRS and args.dailyUpdate == "False":
         trs_tag = get_sc_tag(args.TRS)
         log.info('use specified TRS version:%s' % trs_tag)
-        trs_url = re.sub(r'https?://[^/]*', current_svn_server,
+        trs_url = re.sub(r'https?://[^/]*', '',
             get_Xml_Item(read_xml(get_wft_releasenote(trs_tag)),
-            'downloadItem')[0].childNodes[0].data.strip())
+            'downloadItem')[0].childNodes[0].data.strip()).rstrip('/')
         ecl_dict['TRS_COMMON'] = trs_url
         log.info('-' * 54)
 
@@ -565,14 +579,15 @@ if __name__ == '__main__':
     log.info('***** Modify ECL start *****')
 
     current_svn_server = "https://beisop60.china.nsn-net.net"
+    current_git_server = "ssh://gerrit.ext.net.nokia.com:29418/MN/CBTS/SCM/ECL"
     working_root = os.getcwd()
     log.info('use folder: %s' % working_root)
 
     # get ecl repo
-    ecl_repo, fdd_mod_list = get_ecl_repo()
-    log.info('ECL repo :%s' % ecl_repo)
-    ecl_ws = checkout_ecl(ecl_repo, 'ECL')
-    log.info('\n' + SCM.subprocess.getoutput('svn info ' + ecl_ws))
+    ecl_repo, fdd_mod_list, repo_type = get_ecl_repo()
+    log.info('ECL %s repo :%s' % (repo_type, ecl_repo))
+    ecl_ws, repo_local = checkout_ecl(ecl_repo, 'ECL')
+    # log.info('\n' + SCM.subprocess.getoutput('svn info ' + ecl_ws))
     log.info('-' * 54)
     ecl_dict = parse_cb_ecl(ecl_ws + '/ECL')
     ecl_dict_orig = copy.deepcopy(ecl_dict)
