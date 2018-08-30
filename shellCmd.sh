@@ -1,3 +1,6 @@
+#DHCP下载的网卡配置信息文件？
+#/var/lib/dhclient/dhclient.leases
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #centos7关闭防火墙
 systemctl list-unit-files|grep firewalld.service
 systemctl status firewalld.service
