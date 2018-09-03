@@ -2,20 +2,22 @@
 
 SCRIPT_PATH=`dirname "${BASH_SOURCE[0]}"`
 source ${SCRIPT_PATH}/../../modules/env.sh
-trap "sig_func;" EXIT
+if [ -f "fdt.file" ];then rm -f fdt.file;fi
+trap "sig_func;" SIGTERM SIGINT SIGHUP SIGABRT
 
 sig_func(){
-    echo capture exit signal and start clean operation.
+    echo capture exit signal and start clean operation. | tee clean.log
     if [ -f "fdt.file" ];then
         fdt_ip=$(grep "fdt_ip" fdt.file | awk -F= '{print $NF}')
-        fdt_dest$(grep "fdt_dest" fdt.file | awk -F= '{print $NF}')
+        fdt_dest=$(grep "fdt_dest" fdt.file | awk -F= '{print $NF}')
+        echo fdt_ip=$fdt_ip,fdt_dest=$fdt_dest | tee -a clean.log
         if [ "X$fdt_dest" != "X" -a "X$fdt_ip" != "X" ];then
-            sed -i "s/\(.*${fdt_ip}.*\)/\1/g" ${FDT_HOME}/.fdt_server_${fdt_dest} && echo clean up finish.
+            sed -i "s/^#*\([^#]*${fdt_ip}$\)/\1/g" ${FDT_HOME}/.fdt_server_${fdt_dest} && echo clean up finish. | tee -a clean.log
         else
-            echo no need to clean up.
+            echo info incomplete,no need to clean up. | tee -a clean.log
         fi
     else
-        echo no need to clean up.
+        echo no need to clean up. | tee -a clean.log
     fi
     exit 0
 }
@@ -32,6 +34,21 @@ help(){
     echo 
     echo "****************************************************************"
 }
+
+error(){
+    echo -e "\033[31;2m$1\033[0m"
+    exit 1
+}
+
+while (($#>0)); do
+    case $1 in
+        -t|-tag_name) shift; TAG_NAME=$1; shift;;
+        -d|-dest) shift; DEST=$1; shift;;
+        -s|-src) shift; SRC=$1; shift;;
+        help) help; exit 0;;
+        *) error "unsupport parameter: $1";;
+    esac
+done
 
 # need parameter check
 check_parameter(){
@@ -50,45 +67,34 @@ check_parameter(){
             error "user input a invalid src path :${SRC}"
         fi
     fi
+
 }
-
-error(){
-    echo -e "\033[31;2m$1\033[0m"
-    exit 1
-}
-
-if [ -f "fdt.file" ];then rm -f fdt.file; fi
-
-while (($#>0)); do
-    case $1 in
-        -t|-tag_name) shift; TAG_NAME=$1; shift;;
-        -d|-dest) shift; DEST=$1; shift;;
-        -s|-src) shift; SRC=$1; shift;;
-        help) help; exit 0;;
-        *) error "unsupport parameter: $1";;
-    esac
-done
 check_parameter
 echo fdt_dest=$DEST >fdt.file
 echo "upload ${TAG_NAME} to ${DEST}"
-
-# check if share folder is mounted
-if [ "$DEST" == "HZ" ]; then
-    check_share_mount "${HZ_SHARE}" "${HZ_SHARE_LINK}"
-    DEST_SHARE=${HZ_SHARE}
-    SRC_SHARE=${ESPOO_SHARE}
-elif [ "$DEST" == "ESPOO" ]; then
-    check_share_mount "${ESPOO_SHARE}" "${ESPOO_SHARE_LINK}"
-    DEST_SHARE=${ESPOO_SHARE}
-    SRC_SHARE=${HZ_SHARE}
-else
-    error "DEST should be HZ or ESPOO"
-fi
-
 # get DEST path
 PRE_PATH=$(get_from_branch_mapping "STORAGE" "${TAG_NAME%_*_*}" | sed 's#,#\/#g')
 if [ x${PRE_PATH} = x ]; then
     error "can't find PRE_PATH for ${TAG_NAME} in $BRANCH_MAPPING"
+fi
+
+# check if share folder is mounted
+if [ "$DEST" == "HZ" ]; then
+    #check_share_mount "${HZ_SHARE}" "${HZ_SHARE_LINK}"
+    DEST_SHARE=${HZ_SHARE}
+    SRC_SHARE=${ESPOO_SHARE}
+    if [[ ! -d "${SRC_SHARE}/${PRE_PATH}/${TAG_NAME}" ]]; then
+        SRC_SHARE=${ESPOO_MNT_SHARE}
+    fi
+elif [ "$DEST" == "ESPOO" ]; then
+    #check_share_mount "${ESPOO_SHARE}" "${ESPOO_SHARE_LINK}"
+    DEST_SHARE=${ESPOO_SHARE}
+    SRC_SHARE=${HZ_SHARE}
+    if [[ ! -d "${SRC_SHARE}/${PRE_PATH}/${TAG_NAME}" ]]; then
+        SRC_SHARE=${HZ_MNT_SHARE}
+    fi
+else
+    error "DEST should be HZ or ESPOO"
 fi
 
 if [ x${SRC} = x ]; then
@@ -104,13 +110,14 @@ fi
 DEST_PATH=${DEST_SHARE}/${PRE_PATH}/${TAG_NAME}
 echo "SRC_PATH is: ${SRC_PATH}"
 echo "DEST_PATH is: ${DEST_PATH}"
+mkdir -p ${DEST_SHARE}/${PRE_PATH}
 
-if [ -d ${DEST_PATH} ]; then
-    echo "${DEST_PATH} already exist, move it to a backup folder"
-    mv ${DEST_PATH} ${DEST_PATH}_bk`date "+%Y%m%d_%H%M"`
+#if [ -d ${DEST_PATH} ]; then
+ #   echo "${DEST_PATH} already exist, move it to a backup folder"
+  #  mv ${DEST_PATH} ${DEST_PATH}_bk`date "+%Y%m%d_%H%M"`
     # should wait some time for it really moved to backup folder in share folder
-    sleep 60
-fi
+   # sleep 60
+#fi
 
 # get a fdt server
 FDT_SERVER=""
