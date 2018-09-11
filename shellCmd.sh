@@ -1,3 +1,5 @@
+diff -raN dir1 dir2
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #DHCP下载的网卡配置信息文件？
 #/var/lib/dhclient/dhclient.leases
 #/var/lib/dhclient/dhclient--eth0.lease
