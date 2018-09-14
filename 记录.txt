@@ -1,3 +1,8 @@
+#chorme 禁用自动重新加载
+#chrome://flags/#automatic-tab-discarding
+
+
+
 tcp/ip:
 http://blog.csdn.net/lianghe_work/article/details/45190463
 http://blog.csdn.net/lianghe_work/article/category/2871247
