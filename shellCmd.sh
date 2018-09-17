@@ -1,3 +1,5 @@
+ssh -i ~/cloud_key/hz-ohn-12.pem root@10.182.66.20 'df -h'
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 readIni() {
     # writer taowang
     local INIFILE=$1; local  SECTION=$2; local  ITEM=$3
