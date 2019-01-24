@@ -1,6 +1,8 @@
 #curl下载并修改jenkins job配置
 curl -X GET --user taowang:** http://hzlinb48.china.nsn-net.net:8088/view/tao/job/releasenote_test/config.xml >config.xml
 curl -X POST --user taowang:** http://hzlinb48.china.nsn-net.net:8088/view/tao/job/releasenote_test/config.xml --data-binary "@config.xml"
+curl -X POST --user taowang:*W* http://hzlinb48.china.nsn-net.net:8088/view/tao/job/releasenote_test/buildWithParameters \
+     -d "script=releasenote_CBTS.py&start=${BASE_RLABEL}&end=${CBTS_RLABEL}&id=${build_job_id}&file=releasenote_${baseline_prefix}.ini"
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #windows下挂载nfs盘
 mount -o retry=1 -o rsize=1024 -o wsize=1024 -o anon -o mtype=soft -o fileaccess=6 \\hzchon10.china.nsn-net.net\vol\hzchon10_ltesdkrcp_bin x:
