@@ -7,8 +7,7 @@ curl -X POST --user taowang:*W* http://hzlinb48.china.nsn-net.net:8088/view/tao/
 #windows下挂载nfs盘
 mount -o retry=1 -o rsize=1024 -o wsize=1024 -o anon -o mtype=soft -o fileaccess=6 \\hzchon10.china.nsn-net.net\vol\hzchon10_ltesdkrcp_bin x:
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-ssh -i ~/cloud_key/hz-ohn-12.pem root@10.182.66.20 'df -h'
-#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#shell function
 readIni() {
     # writer taowang
     local INIFILE=$1; local  SECTION=$2; local  ITEM=$3
