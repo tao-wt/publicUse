@@ -18,6 +18,7 @@ a==1 && b==0 && $1~/'$ITEM'/ {b=1;printf("%s",$2);}' $INIFILE)
     echo ${_readIniVar}
 }
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#生成标准patch文件
 diff -raN dir1 dir2
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #DHCP下载的网卡配置信息文件？
@@ -41,8 +42,8 @@ virt-filesystems --parts -a CBTS18_FSM3_MZ_0700_000081_000000_OAM.qcow2
 #挂载镜像
 guestmount -a CBTS18_FSM4_MZ_0700_000155_000001_OAM.qcow2 -m /dev/sda1 --rw ./iso
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-SNAT: Source Network Address Translation，是修改网络包源ip地址的。
-DNAT: Destination Network Address Translation,是修改网络包目的ip地址的。
+#SNAT: Source Network Address Translation，是修改网络包源ip地址的。
+#DNAT: Destination Network Address Translation,是修改网络包目的ip地址的。
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #du参数
 du -sch *
@@ -78,23 +79,6 @@ update public where publicname=pub_groupmsg set publicpath=publicpath||"_jboss";
 top -b -n 1 | head -5
 top -b -n2 -p 27059
 netstat -anp | grep 9086 | grep ES	LISHED | grep java | wc -l
-#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# 注意语法格式。
-# 备份源中版本
-list="msc ucc configcenter eyesight mdbc cmp omc trc mpp"
-for i in $list;do ls -ld /home/zhuser/innerapp/$i/$i.jar;done
-for i in $list;do mv /home/zhuser/innerapp/$i/$i.jar /home/zhuser/backup/bak_$(date +%F);done
-for i in $list;do ls -ld /home/zhuser/backup/bak_$(date +%F)/$i.jar;done
-for i in $list;do ls -ld /home/zhuser/innerapp/$i/${i}_lib;done
-for i in $list;do mv /home/zhuser/innerapp/$i/${i}_lib /home/zhuser/backup/bak_$(date +%F);done
-for i in $list;do ls /home/zhuser/backup/bak_$(date +%F)/${i}_lib;done
-# 更新源中版本
-for i in $list;do find /tmp/$(date +%m%d) -name $i.jar;done|wc -l
-for i in $list;do cp -r $(find /tmp/$(date +%m%d) -name $i.jar) /home/zhuser/innerapp/$i/;done
-for i in $list;do ls -ld /home/zhuser/innerapp/$i/$i.jar;done
-for i in $list;do find /tmp/$(date +%m%d) -name ${i}_lib;done|wc -l
-for i in $list;do cp -r $(find /tmp/$(date +%m%d) -name ${i}_lib) /home/zhuser/innerapp/$i;done
-for i in $list;do ls /home/zhuser/innerapp/$i/${i}_lib;done
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #查找正在删除的文件（有进程在使用）
 lsof | grep deleted
@@ -138,6 +122,7 @@ tcpdump host 210.27.48.1 and \ (210.27.48.2 or 210.27.48.3 \)
 #\# ：第几个命令
 #\$ ：提示字符，如果是root时，提示符为：#;普通用户为：$
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#flake8检查
 python -m flake8 -v '--filename=*.py' . --config=./toolsCheck/flake8/setup.cfg
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #git 添加代理
