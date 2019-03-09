@@ -1,0 +1,58 @@
+<html>
+
+<body onload="autoRowSpan(tb, 0, [1,0])">
+<SCRIPT LANGUAGE="JavaScript"> 
+function autoRowSpan(tb,row,col_a) 
+{ 
+    for(j=0;j<col_a.length;j++ ){
+    var lastValue=""; 
+    var value=""; 
+    var pos=1; 
+    var col=col_a[j]
+    for(var i=row;i<tb.rows.length;i++){ 
+        value = tb.rows[i].cells[col].innerText; 
+        if(lastValue == value){ 
+            tb.rows[i].deleteCell(col); 
+            tb.rows[i-pos].cells[col].rowSpan = tb.rows[i-pos].cells[col].rowSpan+1; 
+            pos++; 
+        }else{ 
+            lastValue = value; 
+            pos=1; 
+        } 
+    } 
+    }
+} 
+
+</SCRIPT> 
+
+<h4>横跨两行的单元格：</h4>
+<table id="tb" border="1">
+<tr>
+  <th>姓名</th>
+  <td>p1</td>
+  <td>p2</td>
+</tr>
+<tr>
+  <td>tt</td>
+  <td>555 77 854</td>
+  <td>555 77 854</td>
+</tr>
+<tr>
+  <td>tt</td>
+  <td>555 77 856</td>
+  <td>555 77 855</td>
+</tr>
+<tr>
+  <td>ty</td>
+  <td>555 77 856</td>
+  <td>555 77 855</td>
+</tr>
+<tr>
+  <td>ty</td>
+  <td>555 77 855</td>
+  <td>555 77 855</td>
+</tr>
+</table>
+
+</body>
+</html>
