@@ -1,3 +1,5 @@
+#https://www.datatables.net/manual/ajax
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #curl下载并修改jenkins job配置
 curl -X GET --user taowang:** http://hzlinb48.china.nsn-net.net:8088/view/tao/job/releasenote_test/config.xml >config.xml
 curl -X POST --user taowang:** http://hzlinb48.china.nsn-net.net:8088/view/tao/job/releasenote_test/config.xml --data-binary "@config.xml"
