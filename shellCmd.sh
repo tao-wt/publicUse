@@ -133,4 +133,4 @@ git config http.proxy http://10.158.100.126:8080
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 docker run -v /root/mysql/config/:/etc/mysql/conf.d -v /root/mysql/mysql/:/var/lib/mysql -p 3305:3305 -d mariadb:10.3.12
 docker run --publish 81:80 --mount type=bind,source=/root/django/,target=/home/django -d django-cbts:v3
-
+#https://docs.oracle.com/cd/E18752_01/html/816-4554/ipv6-overview-10.html
