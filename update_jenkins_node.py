@@ -262,7 +262,7 @@ def update_jenkins_node():
             for process in prosess_list:
                 if process.is_alive():
                     process.terminate()
-                    log.critical(f"process {process.name} be aborted")
+                    log.critical(f"process {process.name} terminated")
             sys.exit(1)
     for _ in range(0, process_number * 3):
         task_queue.put(None)
